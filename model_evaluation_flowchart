@@ -1,0 +1,118 @@
+// Model Evaluation Flowchart
+digraph {
+	Start [label=Start shape=circle]
+	A [label="Data Loading and Preparation" shape=parallelogram]
+	A1 [label="Read Data from 'selected_data_top_contributing_features_1.xlsx'" shape=box]
+	A2 [label="Define Ordinal and Non-Ordinal Features" shape=box]
+	A3 [label="Split into Train/Test Sets
+(train_test_split)" shape=box]
+	Start -> A
+	A -> A1
+	A -> A2
+	A -> A3
+	B [label="Data Preprocessing?" shape=diamond]
+	A1 -> B
+	A2 -> B
+	A3 -> B
+	B1 [label="Scale Non-Ordinal Features
+(StandardScaler)" shape=box]
+	B2 [label="Transform X_test
+(StandardScaler)" shape=box]
+	B3 [label="Encode Ordinal Features
+(OrdinalEncoder)" shape=box]
+	B4 [label="Transform X_test
+(OrdinalEncoder)" shape=box]
+	B5 [label="Combine Features
+(Concatenate)" shape=box]
+	B6 [label="Save Scalers and Encoder" shape=box]
+	B -> B1
+	B1 -> B2
+	B2 -> B3
+	B3 -> B4
+	B4 -> B5
+	B5 -> B6
+	C [label="Model Training?" shape=diamond]
+	B6 -> C
+	C1 [label="Define XGBoost
+(XGBClassifier)" shape=box]
+	C2 [label="Define Hyperparameters Grid
+(param_grid)" shape=box]
+	C3 [label="Perform GridSearchCV
+(GridSearchCV)" shape=box]
+	C4 [label="Get Best Parameters
+(best_params)" shape=box]
+	C5 [label="Train Model with Best Params
+(best_xgb)" shape=box]
+	C6 [label="Save Trained Model
+(joblib)" shape=box]
+	C2A [label="param_grid = {
+  'n_estimators': [50, 100, 150],
+  'learning_rate': [0.05, 0.1, 0.15],
+  'max_depth': [3, 4, 5, 6, 7],
+  'min_child_weight': [1, 2, 4],
+  'subsample': [0.7, 0.8, 0.9, 1.0],
+  'colsample_bytree': [0.6, 0.7, 0.8, 0.9, 1.0],
+  'reg_alpha': [0, 0.1, 0.5, 1],
+  'reg_lambda': [0.5, 1, 1.5, 2]
+}" shape=box]
+	C -> C1
+	C1 -> C2
+	C2 -> C3
+	C3 -> C4
+	C4 -> C5
+	C5 -> C6
+	C2A -> C3
+	D [label="Model Evaluation?" shape=diamond]
+	C6 -> D
+	D1 [label="Predict on Test Set
+(best_xgb)" shape=box]
+	D2 [label="Accuracy Score
+(accuracy_score)" shape=box]
+	D3 [label="Confusion Matrix
+(confusion_matrix)" shape=box]
+	D4 [label="Classification Report
+(classification_report)" shape=box]
+	D5 [label="ROC AUC Score
+(roc_auc_score)" shape=box]
+	D6 [label="ROC Curve
+(roc_curve)" shape=box]
+	D -> D1
+	D1 -> D2
+	D2 -> D3
+	D3 -> D4
+	D4 -> D5
+	D5 -> D6
+	E [label="Model Interpretation" shape=parallelogram]
+	E1 [label="Feature Importance
+(best_xgb)" shape=box]
+	E2 [label="Visualize Feature Importances
+(Seaborn)" shape=box]
+	E3 [label="SHAP Values Analysis
+(shap.Explainer)" shape=box]
+	E4 [label="SHAP Summary Plot
+(shap.summary_plot)" shape=box]
+	E5 [label="SHAP Dependence Plot
+(shap.dependence_plot)" shape=box]
+	D -> E
+	E1 -> E
+	E2 -> E
+	E3 -> E
+	E4 -> E
+	E5 -> E
+	F [label="Model Validation" shape=parallelogram]
+	F1 [label="Cross-Validation
+(KFold: n_splits=5, random_state=42)" shape=box]
+	F2 [label="Visualize CV Scores
+(Seaborn)" shape=box]
+	F3 [label="Visualize Effect of reg_alpha
+and reg_lambda
+(Seaborn)" shape=box]
+	E -> F
+	F1 -> F
+	F2 -> F
+	F3 -> F
+	End [label=End shape=circle]
+	F2 -> End
+	F3 -> End
+	D6 -> End
+}

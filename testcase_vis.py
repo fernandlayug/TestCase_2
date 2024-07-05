@@ -1,115 +1,109 @@
-import graphviz
-from IPython.display import Image
+from graphviz import Digraph
 
-# Create a Digraph object
-graph = graphviz.Digraph()
+# Create a new Digraph object
+dot = Digraph(comment='Model Evaluation Flowchart')
 
-# Define nodes and edges based on the model evaluation process
-graph.node('A', 'Data Loading')
+# Start symbol
+dot.node('Start', 'Start', shape='circle')
 
-# Data Preprocessing subprocesses
-with graph.subgraph(name='cluster_data_preprocessing') as sub:
-    sub.node('B', 'Data Preprocessing')
-    sub.node('B1', 'Separate features\nand target variable')
-    sub.node('B2', 'Identify ordinal features')
-    sub.node('B3', 'Scale non-ordinal features\nusing StandardScaler')
-    sub.node('B4', 'Encode ordinal features\nusing OrdinalEncoder')
-    sub.node('B5', 'Combine scaled and encoded features')
+# Step 1: Data Loading and Preparation
+dot.node('A', 'Data Loading and Preparation', shape='parallelogram')
+dot.node('A1', "Read Data from 'selected_data_top_contributing_features_1.xlsx'", shape='box')
+dot.node('A2', 'Define Ordinal and Non-Ordinal Features', shape='box')
+dot.node('A3', 'Split into Train/Test Sets\n(train_test_split)', shape='box')
 
-graph.node('C', 'Model Training\nand Hyperparameter Tuning')
+dot.edges([('Start', 'A')])
+dot.edges([('A', 'A1'), ('A', 'A2'), ('A', 'A3')])
 
-# Model Training subprocesses
-with graph.subgraph(name='cluster_model_training') as sub:
-    sub.node('C1', 'Define XGBoost Classifier')
-    sub.node('C2', 'Define hyperparameters\ngrid for GridSearchCV')
-    sub.node('C3', 'Perform GridSearchCV\nfor hyperparameter tuning')
-    sub.node('C4', 'Get best hyperparameters')
-    sub.node('C5', 'Train XGBoost model\nwith best hyperparameters')
+# Decision symbol for Data Preprocessing
+dot.node('B', 'Data Preprocessing?', shape='diamond')
+dot.edges([('A1', 'B'), ('A2', 'B'), ('A3', 'B')])
 
-graph.node('D', 'Model Evaluation')
+# Step 2: Data Preprocessing
+dot.node('B1', 'Scale Non-Ordinal Features\n(StandardScaler)', shape='box')
+dot.node('B2', 'Transform X_test\n(StandardScaler)', shape='box')
+dot.node('B3', 'Encode Ordinal Features\n(OrdinalEncoder)', shape='box')
+dot.node('B4', 'Transform X_test\n(OrdinalEncoder)', shape='box')
+dot.node('B5', 'Combine Features\n(Concatenate)', shape='box')
+dot.node('B6', 'Save Scalers and Encoder', shape='box')
 
-# Model Evaluation subprocesses
-with graph.subgraph(name='cluster_model_evaluation') as sub:
-    sub.node('D1', 'K-fold Cross-validation')
-    sub.node('D2', 'Evaluate on testing set:')
-    sub.node('D2A', 'Accuracy')
-    sub.node('D2B', 'Confusion Matrix')
-    sub.node('D2C', 'Classification Report')
-    sub.node('D2D', 'ROC AUC Curve and Score')
+dot.edges([('B', 'B1')])
+dot.edges([('B1', 'B2'), ('B2', 'B3')])
+dot.edges([('B3', 'B4'), ('B4', 'B5')])
+dot.edges([('B5', 'B6')])
 
-graph.node('E', 'Feature Importance Analysis')
+# Decision symbol for Model Training
+dot.node('C', 'Model Training?', shape='diamond')
+dot.edges([('B6', 'C')])
 
-# Feature Importance Analysis subprocesses
-with graph.subgraph(name='cluster_feature_importance') as sub:
-    sub.node('E1', 'Calculate feature importances')
-    sub.node('E2', 'Visualize feature importances\nusing a bar plot')
+# Step 3: Model Training and Hyperparameter Tuning
+dot.node('C1', 'Define XGBoost\n(XGBClassifier)', shape='box')
+dot.node('C2', 'Define Hyperparameters Grid\n(param_grid)', shape='box')
+dot.node('C3', 'Perform GridSearchCV\n(GridSearchCV)', shape='box')
+dot.node('C4', 'Get Best Parameters\n(best_params)', shape='box')
+dot.node('C5', 'Train Model with Best Params\n(best_xgb)', shape='box')
+dot.node('C6', 'Save Trained Model\n(joblib)', shape='box')
 
-graph.node('F', 'SHAP Values Analysis')
+param_grid_values = (
+    "param_grid = {\n"
+    "  'n_estimators': [50, 100, 150],\n"
+    "  'learning_rate': [0.05, 0.1, 0.15],\n"
+    "  'max_depth': [3, 4, 5, 6, 7],\n"
+    "  'min_child_weight': [1, 2, 4],\n"
+    "  'subsample': [0.7, 0.8, 0.9, 1.0],\n"
+    "  'colsample_bytree': [0.6, 0.7, 0.8, 0.9, 1.0],\n"
+    "  'reg_alpha': [0, 0.1, 0.5, 1],\n"
+    "  'reg_lambda': [0.5, 1, 1.5, 2]\n"
+    "}"
+)
 
-# SHAP Values Analysis subprocesses
-with graph.subgraph(name='cluster_shap_values') as sub:
-    sub.node('F1', 'Compute SHAP values')
-    sub.node('F2', 'Visualize SHAP summary plot')
-    sub.node('F3', 'Visualize SHAP dependence plots\nfor each feature')
+dot.node('C2A', param_grid_values, shape='box')
 
-graph.node('G', 'Visualization of\nEvaluation Metrics')
+dot.edges([('C', 'C1')])
+dot.edges([('C1', 'C2'), ('C2', 'C3')])
+dot.edges([('C3', 'C4'), ('C4', 'C5')])
+dot.edges([('C5', 'C6'), ('C2A', 'C3')])
 
-# Visualization of Evaluation Metrics subprocesses
-with graph.subgraph(name='cluster_evaluation_metrics') as sub:
-    sub.node('G1', 'Visualize cross-validation\nscores using a bar plot')
-    sub.node('G2', 'Visualize confusion matrix\nfor the testing set\nusing a heatmap')
-    sub.node('G3', 'Plot ROC Curve')
+# Decision symbol for Model Evaluation
+dot.node('D', 'Model Evaluation?', shape='diamond')
+dot.edges([('C6', 'D')])
 
-graph.node('H', 'Hyperparameter\nEffect Analysis')
+# Step 4: Model Evaluation
+dot.node('D1', 'Predict on Test Set\n(best_xgb)', shape='box')
+dot.node('D2', 'Accuracy Score\n(accuracy_score)', shape='box')
+dot.node('D3', 'Confusion Matrix\n(confusion_matrix)', shape='box')
+dot.node('D4', 'Classification Report\n(classification_report)', shape='box')
+dot.node('D5', 'ROC AUC Score\n(roc_auc_score)', shape='box')
+dot.node('D6', 'ROC Curve\n(roc_curve)', shape='box')
 
-# Hyperparameter Effect Analysis subprocesses
-with graph.subgraph(name='cluster_hyperparameter_effect') as sub:
-    sub.node('H1', 'Visualize the effect of\nreg_alpha on cross-validated\nperformance')
-    sub.node('H2', 'Visualize the effect of\nreg_lambda on cross-validated\nperformance')
+dot.edges([('D', 'D1')])
+dot.edges([('D1', 'D2'), ('D2', 'D3')])
+dot.edges([('D3', 'D4'), ('D4', 'D5')])
+dot.edges([('D5', 'D6')])
 
-# Define edges for the main steps
-graph.edges([
-    ('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'E'),
-    ('E', 'F'), ('F', 'G'), ('G', 'H')
-])
+# Step 5: Model Interpretation
+dot.node('E', 'Model Interpretation', shape='parallelogram')
+dot.node('E1', 'Feature Importance\n(best_xgb)', shape='box')
+dot.node('E2', 'Visualize Feature Importances\n(Seaborn)', shape='box')
+dot.node('E3', 'SHAP Values Analysis\n(shap.Explainer)', shape='box')
+dot.node('E4', 'SHAP Summary Plot\n(shap.summary_plot)', shape='box')
+dot.node('E5', 'SHAP Dependence Plot\n(shap.dependence_plot)', shape='box')
 
-# Define edges for subprocesses
-graph.edge('B', 'B1')
-graph.edge('B', 'B2')
-graph.edge('B', 'B3')
-graph.edge('B', 'B4')
-graph.edge('B', 'B5')
+dot.edges([('D', 'E'), ('E1', 'E'), ('E2', 'E')])
+dot.edges([('E3', 'E'), ('E4', 'E'), ('E5', 'E')])
 
-graph.edge('C', 'C1')
-graph.edge('C', 'C2')
-graph.edge('C', 'C3')
-graph.edge('C', 'C4')
-graph.edge('C', 'C5')
+# Step 6: Model Validation
+dot.node('F', 'Model Validation', shape='parallelogram')
+dot.node('F1', 'Cross-Validation\n(KFold: n_splits=5, random_state=42)', shape='box')
+dot.node('F2', 'Visualize CV Scores\n(Seaborn)', shape='box')
+dot.node('F3', 'Visualize Effect of reg_alpha\nand reg_lambda\n(Seaborn)', shape='box')
 
-graph.edge('D', 'D1')
-graph.edge('D', 'D2')
-graph.edge('D2', 'D2A')
-graph.edge('D2', 'D2B')
-graph.edge('D2', 'D2C')
-graph.edge('D2', 'D2D')
+dot.edges([('E', 'F'), ('F1', 'F'), ('F2', 'F')])
+dot.edges([('F3', 'F')])
 
-graph.edge('E', 'E1')
-graph.edge('E', 'E2')
+# End symbol
+dot.node('End', 'End', shape='circle')
+dot.edges([('F2', 'End'), ('F3', 'End'), ('D6', 'End')])
 
-graph.edge('F', 'F1')
-graph.edge('F', 'F2')
-graph.edge('F', 'F3')
-
-graph.edge('G', 'G1')
-graph.edge('G', 'G2')
-graph.edge('G', 'G3')
-
-graph.edge('H', 'H1')
-graph.edge('H', 'H2')
-
-# Render the flowchart
-flowchart_path = 'model_evaluation_flowchart_with_subprocesses.png'
-graph.render(flowchart_path, format='png', cleanup=True)
-
-# Display the flowchart
-Image(filename=flowchart_path)
+# Render the graph
+dot.render('model_evaluation_flowchart', format='png', view=True)
