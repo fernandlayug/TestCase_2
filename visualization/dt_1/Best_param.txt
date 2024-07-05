@@ -1,0 +1,39 @@
+Best Parameters: {'ccp_alpha': 0.0, 'max_depth': None, 'max_features': None, 'min_samples_leaf': 1, 'min_samples_split': 10}
+GridSearchCV Training Time: 17.500 seconds
+Best Model Training Time: 0.028 seconds
+Cross-Validation Scores: [0.95405009 0.95004477 0.95564757 0.949909   0.9544891 ]
+Mean Cross-Validation Score: 0.9528281076901971
+Accuracy: 0.9153888280394304
+Confusion Matrix:
+[[1714  106]
+ [ 203 1629]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.89      0.94      0.92      1820
+           1       0.94      0.89      0.91      1832
+
+    accuracy                           0.92      3652
+   macro avg       0.92      0.92      0.92      3652
+weighted avg       0.92      0.92      0.92      3652
+
+ROC AUC Score: 0.9640144380728441
+Feature Importances:
+                              Feature  Importance
+16              SchoolAttended_Public    0.250551
+15                    Guardian_Mother    0.121257
+13                      DaysAvailable    0.099026
+14                             Gender    0.097932
+6   ParentCohabitation_LivingTogether    0.062791
+4                AttendClassRegularly    0.056915
+11                          FatherJob    0.054900
+7                          TravelTime    0.047911
+8                      InternetAccess    0.037805
+10                 DistanceHomeSchool    0.036422
+3                    FinancialSupport    0.034307
+0          ParentCohabitation_Widowed    0.029087
+5         ReasonStopSchool_SchoolsFar    0.025054
+1              SchoolAttended_Private    0.013663
+2         ReasonStopSchool_CannotCope    0.013432
+12                   PerformanceScale    0.011583
+9                  MotherJob_OtherJob    0.007365

@@ -1,0 +1,39 @@
+Best Parameters: {'learning_rate': 0.15, 'max_depth': 7, 'max_features': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 150, 'subsample': 0.8}
+Training Time: 5130.93 seconds
+Cross-Validation Scores: [0.97788391 0.97346934 0.98258659 0.97803488 0.97333416]
+Mean Cross-Validation Score: 0.9770617749599543
+Accuracy: 0.937842278203724
+Confusion Matrix:
+[[1746   74]
+ [ 153 1679]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.92      0.96      0.94      1820
+           1       0.96      0.92      0.94      1832
+
+    accuracy                           0.94      3652
+   macro avg       0.94      0.94      0.94      3652
+weighted avg       0.94      0.94      0.94      3652
+
+ROC AUC Score: 0.9811331817745573
+Feature Importances:
+                              Feature  Importance
+16              SchoolAttended_Public    0.263797
+15                    Guardian_Mother    0.127170
+13                      DaysAvailable    0.108064
+14                             Gender    0.104467
+3                    FinancialSupport    0.052832
+7                          TravelTime    0.052026
+11                          FatherJob    0.050057
+4                AttendClassRegularly    0.046298
+6   ParentCohabitation_LivingTogether    0.037030
+10                 DistanceHomeSchool    0.029953
+8                      InternetAccess    0.029095
+5         ReasonStopSchool_SchoolsFar    0.026646
+0          ParentCohabitation_Widowed    0.025309
+12                   PerformanceScale    0.014256
+1              SchoolAttended_Private    0.013782
+9                  MotherJob_OtherJob    0.009663
+2         ReasonStopSchool_CannotCope    0.009555
+100%|===================| 3649/3652 [00:42<00:00]    

@@ -1,0 +1,72 @@
+8100 fits failed out of a total of 32400.
+The score on these train-test partitions for these parameters will be set to nan.
+If these failures are not expected, you can try to debug them by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+5858 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\model_selection\_validation.py", line 888, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\base.py", line 1466, in wrapper
+    estimator._validate_params()
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\base.py", line 666, in _validate_params
+    validate_parameter_constraints(
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\utils\_param_validation.py", line 95, in validate_parameter_constraints
+    raise InvalidParameterError(
+sklearn.utils._param_validation.InvalidParameterError: The 'max_features' parameter of GradientBoostingClassifier must be an int in the range [1, inf), a float in the range (0.0, 1.0], a str among {'sqrt', 'log2'} or None. Got 'auto' instead.
+
+--------------------------------------------------------------------------------
+2242 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\model_selection\_validation.py", line 888, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\base.py", line 1466, in wrapper
+    estimator._validate_params()
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\base.py", line 666, in _validate_params
+    validate_parameter_constraints(
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\utils\_param_validation.py", line 95, in validate_parameter_constraints
+    raise InvalidParameterError(
+sklearn.utils._param_validation.InvalidParameterError: The 'max_features' parameter of GradientBoostingClassifier must be an int in the range [1, inf), a float in the range (0.0, 1.0], a str among {'log2', 'sqrt'} or None. Got 'auto' instead.
+
+  warnings.warn(some_fits_failed_message, FitFailedWarning)
+C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\sklearn\model_selection\_search.py:1052: UserWarning: One or more of the test scores are non-finite: [       nan        nan        nan ... 0.97839811 0.97776882 0.97554839]
+  warnings.warn(
+Best Parameters: {'learning_rate': 0.15, 'max_depth': 7, 'max_features': None, 'min_samples_leaf': 1, 'min_samples_split': 3, 'n_estimators': 150, 'subsample': 0.7}
+Cross-Validation Scores: [0.97780187 0.97241451 0.98294898 0.97571329 0.97568786]
+Mean Cross-Validation Score: 0.9769133012823135
+Accuracy: 0.9351040525739321
+Confusion Matrix:
+[[1736   84]
+ [ 153 1679]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.92      0.95      0.94      1820
+           1       0.95      0.92      0.93      1832
+
+    accuracy                           0.94      3652
+   macro avg       0.94      0.94      0.94      3652
+weighted avg       0.94      0.94      0.94      3652
+
+ROC AUC Score: 0.9808467596813667
+Feature Importances:
+                              Feature  Importance
+16              SchoolAttended_Public    0.260738
+15                    Guardian_Mother    0.121376
+13                      DaysAvailable    0.109196
+14                             Gender    0.099725
+11                          FatherJob    0.052869
+7                          TravelTime    0.052809
+3                    FinancialSupport    0.052373
+4                AttendClassRegularly    0.048703
+6   ParentCohabitation_LivingTogether    0.041888
+10                 DistanceHomeSchool    0.030863
+8                      InternetAccess    0.030710
+5         ReasonStopSchool_SchoolsFar    0.028922
+0          ParentCohabitation_Widowed    0.026606
+12                   PerformanceScale    0.014619
+1              SchoolAttended_Private    0.011419
+2         ReasonStopSchool_CannotCope    0.009645
+9                  MotherJob_OtherJob    0.007539
+100%|===================| 3634/3652 [00:44<00:00]        

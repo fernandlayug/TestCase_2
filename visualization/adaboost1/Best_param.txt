@@ -1,0 +1,44 @@
+Best Parameters: {'learning_rate': 0.15, 'n_estimators': 150}
+Cross-Validation Scores: [0.74720352 0.75653826 0.75935285 0.74042812 0.75327246]
+Mean Cross-Validation Score: 0.7513590420126912
+Accuracy: 0.6785323110624315
+Confusion Matrix:
+[[1478  342]
+ [ 832 1000]]
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.64      0.81      0.72      1820
+           1       0.75      0.55      0.63      1832
+
+    accuracy                           0.68      3652
+   macro avg       0.69      0.68      0.67      3652
+weighted avg       0.69      0.68      0.67      3652
+
+ROC AUC Score: 0.7436664727194204
+Feature Importances:
+                              Feature  Importance
+16              SchoolAttended_Public    0.326324
+15                    Guardian_Mother    0.272927
+5         ReasonStopSchool_SchoolsFar    0.185528
+3                    FinancialSupport    0.082348
+13                      DaysAvailable    0.048754
+11                          FatherJob    0.029102
+1              SchoolAttended_Private    0.021169
+12                   PerformanceScale    0.017928
+4                AttendClassRegularly    0.008626
+7                          TravelTime    0.007293
+14                             Gender    0.000000
+0          ParentCohabitation_Widowed    0.000000
+10                 DistanceHomeSchool    0.000000
+9                  MotherJob_OtherJob    0.000000
+6   ParentCohabitation_LivingTogether    0.000000
+2         ReasonStopSchool_CannotCope    0.000000
+8                      InternetAccess    0.000000
+Traceback (most recent call last):
+  File "d:\AppDev\TestCases_2\testcase_adaboost_01.py", line 137, in <module>
+    explainer = shap.Explainer(best_ada, X_train_processed)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fernand\AppData\Roaming\Python\Python312\site-packages\shap\explainers\_explainer.py", line 174, in __init__
+    raise TypeError("The passed model is not callable and cannot be analyzed directly with the given masker! Model: " + str(model))
+TypeError: The passed model is not callable and cannot be analyzed directly with the given masker! Model: AdaBoostClassifier(algorithm='SAMME', learning_rate=0.15, n_estimators=150)

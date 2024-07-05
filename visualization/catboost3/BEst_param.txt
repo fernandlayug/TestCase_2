@@ -1,0 +1,13 @@
+Best Hyperparameters: {'bootstrap_type': 'Bernoulli', 'colsample_bylevel': 0.9, 'depth': 8, 'early_stopping_rounds': 10, 'iterations': 500, 'l2_leaf_reg': 1, 'learning_rate': 0.1, 'subsample': 0.9}
+Accuracy: 0.9537239868565169
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.94      0.97      0.95      1820
+           1       0.97      0.94      0.95      1832
+
+    accuracy                           0.95      3652
+   macro avg       0.95      0.95      0.95      3652
+weighted avg       0.95      0.95      0.95      3652
+
+ROC AUC: 0.9882034586592446
